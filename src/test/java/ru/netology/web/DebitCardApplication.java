@@ -15,5 +15,6 @@ public class DebitCardApplication {
         $("[data-test-id='agreement'] span").click();
         $("button").click();
         $("[data-test-id='order-success']").shouldHave(Condition.text("Ваша заявка успешно отправлена! Наш менеджер свяжется с вами в ближайшее время."));
+
     }
 }
