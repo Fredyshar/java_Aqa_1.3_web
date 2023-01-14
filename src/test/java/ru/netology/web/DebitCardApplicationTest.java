@@ -1,26 +1,35 @@
 package ru.netology.web;
 
 import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.Configuration;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static com.codeborne.selenide.Selenide.*;
 
 public class DebitCardApplicationTest {
+
+    @BeforeEach
+    void setup() {
+        open("http://localhost:9999/");
+    }
+
     @Test
     void happyPath() {
-        open("http://localhost:9999/");
+        //Configuration.holdBrowserOpen = true;
         $("[data-test-id='name'] input").sendKeys("Иванов Иван");
         $("[data-test-id='phone'] input").sendKeys("+70001112233");
         $("[data-test-id='agreement']").click();
         $("button").click();
         $("[data-test-id='order-success']").shouldHave(Condition.text("Ваша заявка успешно отправлена! Наш менеджер свяжется с вами в ближайшее время."));
+
     }
 //_______________________________________________________________
     /* Not happy Path:*/
 
     @Test
     void dontPressIAgree() {
-        open("http://localhost:9999/");
+
         $("[data-test-id='name'] input").sendKeys("Иванов Иван");
         $("[data-test-id='phone'] input").sendKeys("+70001112233");
         $("button").click();
@@ -29,7 +38,7 @@ public class DebitCardApplicationTest {
 
     @Test
     void noName() {
-        open("http://localhost:9999/");
+
         $("[data-test-id='name'] input").sendKeys("");
         $("[data-test-id='phone'] input").sendKeys("+70001112233");
         $("[data-test-id='agreement']").click();
@@ -39,7 +48,7 @@ public class DebitCardApplicationTest {
 
     @Test
     void noPhone() {
-        open("http://localhost:9999/");
+
         $("[data-test-id='name'] input").sendKeys("Иванов Иван");
         $("[data-test-id='phone'] input").sendKeys("");
         $("[data-test-id='agreement']").click();
@@ -48,7 +57,7 @@ public class DebitCardApplicationTest {
     }
     @Test
     void requirementsOnlyTheFirstFieldIsHighlighted() {
-        open("http://localhost:9999/");
+
         $("[data-test-id='name'] input").sendKeys("Ivanov Ivan");
         $("[data-test-id='phone'] input").sendKeys("+754");
         $("[data-test-id='agreement']").click();
@@ -61,7 +70,7 @@ public class DebitCardApplicationTest {
 
     @Test
     void nameinEnglish() {
-        open("http://localhost:9999/");
+
         $("[data-test-id='name'] input").sendKeys("Ivanov Ivan");
         $("[data-test-id='phone'] input").sendKeys("+70001112233");
         $("[data-test-id='agreement']").click();
@@ -71,7 +80,7 @@ public class DebitCardApplicationTest {
 
     @Test
     void nameThroughHyphen() {
-        open("http://localhost:9999/");
+
         $("[data-test-id='name'] input").sendKeys("Иван-Веня Иванов");
         $("[data-test-id='phone'] input").sendKeys("+70001112233");
         $("[data-test-id='agreement']").click();
@@ -80,7 +89,7 @@ public class DebitCardApplicationTest {
     }
     @Test
     void surnameThroughHyphen() {
-        open("http://localhost:9999/");
+
         $("[data-test-id='name'] input").sendKeys("Иван Иванов-Петров");
         $("[data-test-id='phone'] input").sendKeys("+70001112233");
         $("[data-test-id='agreement']").click();
@@ -90,7 +99,7 @@ public class DebitCardApplicationTest {
 
     @Test
     void nameWithRareLetter() {
-        open("http://localhost:9999/");
+
         $("[data-test-id='name'] input").sendKeys("Фёдор Иванов");
         $("[data-test-id='phone'] input").sendKeys("+70001112233");
         $("[data-test-id='agreement']").click();
@@ -100,7 +109,7 @@ public class DebitCardApplicationTest {
     }
     @Test
     void notInNameSurname() {
-        open("http://localhost:9999/");
+
         $("[data-test-id='name'] input").sendKeys("Иван");
         $("[data-test-id='phone'] input").sendKeys("+70001112233");
         $("[data-test-id='agreement']").click();
@@ -114,7 +123,7 @@ public class DebitCardApplicationTest {
 
     @Test
     void manyDigitsInPhoneNumber() {
-        open("http://localhost:9999/");
+
         $("[data-test-id='name'] input").sendKeys("Иван Иванов");
         $("[data-test-id='phone'] input").sendKeys("+700011122331");
         $("[data-test-id='agreement']").click();
@@ -124,7 +133,7 @@ public class DebitCardApplicationTest {
 
     @Test
     void fewDigitsInPhoneNumber() {
-        open("http://localhost:9999/");
+
         $("[data-test-id='name'] input").sendKeys("Иван Иванов");
         $("[data-test-id='phone'] input").sendKeys("+7");
         $("[data-test-id='agreement']").click();
@@ -133,7 +142,7 @@ public class DebitCardApplicationTest {
     }
     @Test
     void noPlus() {
-        open("http://localhost:9999/");
+
         $("[data-test-id='name'] input").sendKeys("Иван Иванов");
         $("[data-test-id='phone'] input").sendKeys("80001112233");
         $("[data-test-id='agreement']").click();
@@ -142,7 +151,7 @@ public class DebitCardApplicationTest {
     }
     @Test
     void letteronPhoneNumber() {
-        open("http://localhost:9999/");
+
         $("[data-test-id='name'] input").sendKeys("Иван Иванов");
         $("[data-test-id='phone'] input").sendKeys("+7000111223f");
         $("[data-test-id='agreement']").click();
@@ -152,7 +161,7 @@ public class DebitCardApplicationTest {
 
     @Test
     void phoneNumberBegginWrong() {
-        open("http://localhost:9999/");
+
         $("[data-test-id='name'] input").sendKeys("Иван Иванов");
         $("[data-test-id='phone'] input").sendKeys("+50001112233");
         $("[data-test-id='agreement']").click();
