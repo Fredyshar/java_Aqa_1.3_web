@@ -22,7 +22,7 @@ public class DebitCardApplicationTest {
         $("[data-test-id='agreement']").click();
         $("button").click();
         $("[data-test-id='order-success']").shouldHave(Condition.text("Ваша заявка успешно отправлена! Наш менеджер свяжется с вами в ближайшее время."));
-
+        $("[data-test-id='order-success']").shouldBe(Condition.visible);
     }
 //_______________________________________________________________
     /* Not happy Path:*/
@@ -33,37 +33,35 @@ public class DebitCardApplicationTest {
         $("[data-test-id='name'] input").sendKeys("Иванов Иван");
         $("[data-test-id='phone'] input").sendKeys("+70001112233");
         $("button").click();
-        $("[data-test-id='order-success'].input_invalid").isDisplayed();
+        $("[data-test-id='order-success'].input_invalid").shouldNotBe(Condition.visible);
     }
 
     @Test
     void noName() {
-
         $("[data-test-id='name'] input").sendKeys("");
         $("[data-test-id='phone'] input").sendKeys("+70001112233");
         $("[data-test-id='agreement']").click();
         $("button").click();
-        $("[data-test-id='name'].input_invalid").isDisplayed();
+        $("[data-test-id='name'].input_invalid").shouldBe(Condition.visible);
     }
 
     @Test
     void noPhone() {
-
         $("[data-test-id='name'] input").sendKeys("Иванов Иван");
         $("[data-test-id='phone'] input").sendKeys("");
         $("[data-test-id='agreement']").click();
         $("button").click();
-        $("[data-test-id='phone'].input_invalid").isDisplayed();
+        $("[data-test-id='phone'].input_invalid").shouldBe(Condition.visible);
     }
+
     @Test
     void requirementsOnlyTheFirstFieldIsHighlighted() {
-
         $("[data-test-id='name'] input").sendKeys("Ivanov Ivan");
         $("[data-test-id='phone'] input").sendKeys("+754");
         $("[data-test-id='agreement']").click();
         $("button").click();
         $("[data-test-id='name'].input_invalid").shouldHave(Condition.text("Имя и Фамилия указаные неверно. Допустимы только русские буквы, пробелы и дефисы."));
-        $("[data-test-id='phone'].input_invalid").shouldNotBe();
+        $("[data-test-id='phone'].input_invalid").shouldNotBe(Condition.visible);
     }
 
     /* Name validation */
@@ -75,7 +73,8 @@ public class DebitCardApplicationTest {
         $("[data-test-id='phone'] input").sendKeys("+70001112233");
         $("[data-test-id='agreement']").click();
         $("button").click();
-        $("[data-test-id='name'].input_theme_alfa-on-white.input_invalid .input__sub").shouldHave(Condition.text("Имя и Фамилия указаные неверно. Допустимы только русские буквы, пробелы и дефисы."));
+        $("[data-test-id='name'].input_invalid .input__sub").shouldHave(Condition.text("Имя и Фамилия указаные неверно. Допустимы только русские буквы, пробелы и дефисы."));
+        $("[data-test-id='name'].input_invalid .input__sub").shouldBe(Condition.visible);
     }
 
     @Test
@@ -86,7 +85,9 @@ public class DebitCardApplicationTest {
         $("[data-test-id='agreement']").click();
         $("button").click();
         $("[data-test-id='order-success']").shouldHave(Condition.text("Ваша заявка успешно отправлена! Наш менеджер свяжется с вами в ближайшее время."));
+        $("[data-test-id='order-success']").shouldBe(Condition.visible);
     }
+
     @Test
     void surnameThroughHyphen() {
 
@@ -95,6 +96,7 @@ public class DebitCardApplicationTest {
         $("[data-test-id='agreement']").click();
         $("button").click();
         $("[data-test-id='order-success']").shouldHave(Condition.text("Ваша заявка успешно отправлена! Наш менеджер свяжется с вами в ближайшее время."));
+        $("[data-test-id='order-success']").shouldBe(Condition.visible);
     }
 
     @Test
@@ -105,8 +107,9 @@ public class DebitCardApplicationTest {
         $("[data-test-id='agreement']").click();
         $("button").click();
         $("[data-test-id='order-success']").shouldHave(Condition.text("Ваша заявка успешно отправлена! Наш менеджер свяжется с вами в ближайшее время."));
-
+        $("[data-test-id='order-success']").shouldBe(Condition.visible);
     }
+
     @Test
     void notInNameSurname() {
 
@@ -115,57 +118,58 @@ public class DebitCardApplicationTest {
         $("[data-test-id='agreement']").click();
         $("button").click();
         $("[data-test-id='name'] input__sub").shouldHave(Condition.text("Имя и Фамилия указаные неверно. Допустимы только русские буквы, пробелы и дефисы."));
-
-
+        $("[data-test-id='name'] input__sub").shouldBe(Condition.visible);
     }
 
     /* Phone validation */
 
     @Test
     void manyDigitsInPhoneNumber() {
-
         $("[data-test-id='name'] input").sendKeys("Иван Иванов");
         $("[data-test-id='phone'] input").sendKeys("+700011122331");
         $("[data-test-id='agreement']").click();
         $("button").click();
         $("[data-test-id='phone'].input_invalid").shouldHave(Condition.text("Телефон указан неверно. Должно быть 11 цифр, например, +79012345678."));
+        $("[data-test-id='phone'].input_invalid").shouldBe(Condition.visible);
     }
 
     @Test
     void fewDigitsInPhoneNumber() {
-
         $("[data-test-id='name'] input").sendKeys("Иван Иванов");
         $("[data-test-id='phone'] input").sendKeys("+7");
         $("[data-test-id='agreement']").click();
         $("button").click();
         $("[data-test-id='phone'].input_invalid").shouldHave(Condition.text("Телефон указан неверно. Должно быть 11 цифр, например, +79012345678."));
+        $("[data-test-id='phone'].input_invalid").shouldBe(Condition.visible);
     }
+
     @Test
     void noPlus() {
-
         $("[data-test-id='name'] input").sendKeys("Иван Иванов");
         $("[data-test-id='phone'] input").sendKeys("80001112233");
         $("[data-test-id='agreement']").click();
         $("button").click();
         $("[data-test-id='phone'].input_invalid").shouldHave(Condition.text("Телефон указан неверно. Должно быть 11 цифр, например, +79012345678."));
+        $("[data-test-id='phone'].input_invalid").shouldBe(Condition.visible);
     }
+
     @Test
     void letteronPhoneNumber() {
-
         $("[data-test-id='name'] input").sendKeys("Иван Иванов");
         $("[data-test-id='phone'] input").sendKeys("+7000111223f");
         $("[data-test-id='agreement']").click();
         $("button").click();
         $("[data-test-id='phone'].input_invalid").shouldHave(Condition.text("Телефон указан неверно. Должно быть 11 цифр, например, +79012345678."));
+        $("[data-test-id='phone'].input_invalid").shouldBe(Condition.visible);
     }
 
     @Test
     void phoneNumberBegginWrong() {
-
         $("[data-test-id='name'] input").sendKeys("Иван Иванов");
         $("[data-test-id='phone'] input").sendKeys("+50001112233");
         $("[data-test-id='agreement']").click();
         $("button").click();
         $("[data-test-id='phone'].input_invalid").shouldHave(Condition.text("Телефон указан неверно. Должно быть 11 цифр, например, +79012345678."));
+        $("[data-test-id='phone'].input_invalid").shouldBe(Condition.visible);
     }
 }
